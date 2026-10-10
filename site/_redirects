@@ -1,0 +1,6 @@
+# Legacy URLs from the previous site. Cloudflare Pages reads this file;
+# .htaccess is Apache-only and is ignored here.
+/runs           /#runs              301
+/runs/          /#runs              301
+/impressum      /impressum.html     301
+/impressum/     /impressum.html     301

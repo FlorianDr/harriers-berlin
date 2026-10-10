@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" role="img"
+     aria-label="Monday Duck: an 8 km loop through the Tiergarten and along the Spree">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path opacity=".22" stroke-width="1.5" d="M6 120h188M6 98h188"/>
+    <path stroke-width="3.5" d="M62 112c-26-12-32-38-14-56s48-22 74-14c28 8 46 24 40 44s-34 32-62 30c-18-1-28 2-38-4Z"/>
+  </g>
+  <circle cx="62" cy="112" r="5" fill="currentColor"/>
+</svg>

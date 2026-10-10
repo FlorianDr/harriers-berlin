@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" role="img"
+     aria-label="Thursday Swan: a 7 km run along the Landwehrkanal, finishing at La Maison">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path opacity=".22" stroke-width="1.5" d="M6 124h188"/>
+    <path stroke-width="3.5" d="M22 92c32-24 52 14 86-10 28-20 44 8 70-12"/>
+  </g>
+  <circle cx="22" cy="92" r="5" fill="currentColor"/>
+  <circle cx="178" cy="70" r="5" fill="currentColor"/>
+</svg>

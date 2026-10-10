@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" role="img"
+     aria-label="Saturday parkrun: a 5 km circuit at Hasenheide or Tempelhofer Feld">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path opacity=".22" stroke-width="1.5" d="M100 14v122M38 75h124"/>
+    <path stroke-width="3.5" d="M100 30c40 0 64 22 62 46s-32 40-62 38-58-16-60-40 22-44 60-44Z"/>
+  </g>
+  <circle cx="100" cy="30" r="5" fill="currentColor"/>
+</svg>

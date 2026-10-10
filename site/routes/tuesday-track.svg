@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" role="img"
+     aria-label="Tuesday Track: repeated laps of a 400 metre track">
+  <g fill="none" stroke="currentColor" stroke-linecap="round">
+    <path opacity=".22" stroke-width="1.5" d="M46 45h108a30 30 0 0 1 0 60H46a30 30 0 0 1 0-60Z"/>
+    <path opacity=".22" stroke-width="1.5" d="M52 57h96a18 18 0 0 1 0 36H52a18 18 0 0 1 0-36Z"/>
+    <path stroke-width="3.5" d="M40 34h120a41 41 0 0 1 0 82H40a41 41 0 0 1 0-82Z"/>
+  </g>
+  <circle cx="100" cy="34" r="5" fill="currentColor"/>
+</svg>

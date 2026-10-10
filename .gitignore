@@ -1,0 +1,27 @@
+# Secrets
+.env
+.env.*
+
+# Cloudflare / Wrangler local state (contains account IDs)
+.wrangler/
+.dev.vars
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Generator scratch output (scripts write next to where they run)
+/*.png
+/*.mp4
+/seq/
+/node_modules/
+
+# Planning docs stay local for now
+/docs/
+
+# Private tooling and notes (image/video generation) — local only
+/scripts/
+CLAUDE.local.md
