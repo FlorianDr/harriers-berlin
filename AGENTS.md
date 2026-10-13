@@ -78,6 +78,8 @@ Three hand-written files, no framework:
 
 - The **season record** (`#season`) is invented and marked "PLACEHOLDER DATA — REPLACE BEFORE
   LAUNCH" in the source.
+- The **FAQ** (`#faq`) answers are stand-ins, each beginning "Placeholder answer.", and the section
+  is marked "PLACEHOLDER TEXT — REPLACE BEFORE LAUNCH" in the source.
 - The photos and hero video are placeholders, to be replaced with real club photography; the footer
   says so.
 - Route SVG shapes are indicative; real geometry should come from Strava GPX.

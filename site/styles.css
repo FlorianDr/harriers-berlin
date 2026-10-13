@@ -243,6 +243,20 @@
     border-inline-start:4px solid var(--line);color:var(--muted);font-size:var(--s--1);
     max-inline-size:var(--measure)}
 
+  /* FAQ — native <details>, works without JS */
+  .faq{margin-block-start:var(--sp-6);border-block-start:2px solid var(--line)}
+  .faq details{border-block-end:2px solid var(--line)}
+  .faq summary{display:flex;justify-content:space-between;align-items:center;gap:var(--sp-4);
+    padding-block:var(--sp-4);cursor:pointer;list-style:none;font-family:var(--dsp);font-weight:400;
+    font-size:var(--s-1);line-height:1.1;color:var(--brand);transition:color var(--dur-fast)}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";flex:none;font-size:var(--s-2);line-height:.8;color:var(--volt-ink);
+    transition:rotate var(--dur-base) var(--ease-out)}
+  .faq details[open] summary::after{rotate:45deg}
+  .faq summary:hover{color:var(--ink)}
+  .faq details p{max-inline-size:var(--measure);padding-block-end:var(--sp-5);color:var(--ink-soft);
+    line-height:1.55}
+
   .quote{font-family:var(--dsp);font-size:var(--s-2);color:var(--brand);line-height:1.05;
     max-inline-size:20ch;margin-block-start:var(--sp-5)}
 
