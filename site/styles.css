@@ -137,6 +137,13 @@
     text-transform:uppercase;letter-spacing:.18em}
   .next b{font-family:var(--dsp);font-weight:400;font-size:var(--s-1);line-height:1}
   .next .where{font-size:var(--s--1);opacity:.85}
+  .next .join{margin-inline-start:auto;align-self:center;font-family:var(--body);font-weight:700;
+    font-size:var(--s--1);text-transform:uppercase;letter-spacing:.08em;text-decoration:none;
+    background:var(--purple);color:var(--on-purple);padding:.45em .9em;
+    box-shadow:3px 3px 0 var(--on-volt);transition:transform var(--dur-fast),box-shadow var(--dur-base)}
+  .next .join:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--on-volt)}
+  .next .join:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--on-volt)}
+  .next .join:focus-visible{outline-color:var(--on-volt)}
 
   /* photos — P4 */
   .shot{position:relative;overflow:hidden;background:var(--surface)}
