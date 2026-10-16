@@ -49,6 +49,7 @@ the privacy promise, and the second breaks the next-run script.
 Some content is not real yet and is marked as such:
 
 - **The season record** on the homepage is invented placeholder data.
+- **The FAQ answers** are placeholder text.
 - **The photographs and the hero video are placeholders.** They depict no real people, the site
   footer says so, and they will be replaced with real photos of club runs.
 - **The route maps** are indicative shapes, not traced from GPS data.
