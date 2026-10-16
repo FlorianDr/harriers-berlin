@@ -69,6 +69,11 @@ Three hand-written files, no framework:
   "Alfa Slab", and subsetting makes it a Modified Version that may not use that name (OFL FAQ 2.6,
   3.8). It is the upstream Google Fonts TTF compressed to WOFF2 and nothing else. Archivo has no
   reserved name, so its subset is fine.
+- **External links open in a new tab.** Every link to another site (Discord, Strava, maps,
+  parkrun, OpenStreetMap, …) gets `target="_blank" rel="noopener"` plus a visually hidden
+  `<span class="vh"> (opens in a new tab)</span>` inside the link text, so screen-reader users are
+  told. Internal links (`index.html`, `runs/*.html`, `impressum.html`, the PDFs) and `mailto:`
+  links stay in the same tab.
 - **No AVIF.** It loaded but painted blank in testing; images are JPEG with `srcset`.
 - **Voice rules**: composed body copy, warmer headings, exactly two
   jokes on the page (the bakery line and the asparagus line), no emoji in prose — run emoji are
