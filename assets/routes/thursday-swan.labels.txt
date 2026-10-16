@@ -1,0 +1,2 @@
+<text class="m-label m-label--water" x="50" y="80" text-anchor="middle" transform="rotate(6.4 50 80)">Landwehrkanal</text>
+<text class="m-label m-label--water" x="166" y="14" text-anchor="middle" transform="rotate(38 166 14)">Spree</text>

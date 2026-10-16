@@ -1,0 +1,2 @@
+<text class="m-label m-label--water" x="22" y="27">Spree</text>
+<text class="m-label" x="112" y="105" text-anchor="middle">Tiergarten</text>

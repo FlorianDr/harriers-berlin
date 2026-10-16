@@ -28,6 +28,10 @@ node --check site/app.js
 wrangler pages deploy site --project-name=berlinharriers
 ```
 
+Route maps on the run pages are static SVGs drawn from a GPX plus OpenStreetMap data by
+`assets/routes/tools/route_map.py` — an optional helper run by hand, not a build step. Its README
+covers the GPX privacy check, the required OpenStreetMap credit and renaming on change.
+
 Photos are JPEG at widths 640/1024/1600, served with `srcset`. The hero video is a muted H.264 MP4
 (`-an -vf scale=960:540 -c:v libx264 -crf 34 -movflags +faststart`); it sits behind a heavy purple
 overlay, so it tolerates hard compression.
