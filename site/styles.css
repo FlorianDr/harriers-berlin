@@ -169,6 +169,13 @@
   .fix:hover .day,.fix:focus-within .day{color:var(--volt)}
   .fix .name{font-weight:700;align-self:center;display:flex;align-items:center;gap:.5rem}
   .fix .mark{font-size:1.1em;line-height:1}
+  .fix .name a{color:inherit;text-decoration:none}  /* before the hover rule below, so hover still turns it volt */
+  .fix:hover .name a,.fix:focus-within .name a{text-decoration:underline}
+  /* The name link covers the whole card; links in the description sit above it. */
+  .fix .name a::after{content:"";position:absolute;inset:0}
+  .fix .name a:focus-visible{outline:none}
+  .fix .name a:focus-visible::after{outline:3px solid var(--volt);outline-offset:-5px}
+  .fix .after a{position:relative;z-index:1}
   .fix .when{font-size:var(--s--1);color:var(--muted);grid-column:1/-1;transition:color var(--dur-base)}
   .fix .after{font-size:var(--s--1);color:var(--muted);grid-column:1/-1;transition:color var(--dur-base)}
   .fix .rt{grid-column:1/-1;inline-size:100%;max-inline-size:14rem;color:var(--brand);
@@ -262,6 +269,49 @@
   .faq summary:hover{color:var(--ink)}
   .faq details p{max-inline-size:var(--measure);padding-block-end:var(--sp-5);color:var(--ink-soft);
     line-height:1.55}
+
+  /* run pages (runs/*.html) */
+  .masthead--run{padding-block:clamp(1.5rem,4vw,2.5rem)}
+  .masthead--run h1{font-size:var(--s-3)}
+  .masthead--run h1 .mark{font-size:.6em;vertical-align:.15em;margin-inline-end:.25em}
+  .masthead .home{display:inline-flex;align-items:center;gap:.6rem;color:var(--on-purple);
+    text-decoration:none;font-weight:700;font-size:var(--s--1);letter-spacing:.2em;
+    text-transform:uppercase;margin-block-end:var(--sp-3)}
+  .masthead .home img{inline-size:2.75rem}
+  .masthead .home:hover{color:var(--volt)}
+  .masthead .strava{margin-block:var(--sp-2) var(--sp-3)}
+
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin:0;background:var(--line);
+    border:2px solid var(--ink)}
+  .facts > div{background:var(--paper);padding:1rem 1.1rem}
+  .facts dt{font-weight:700;font-size:var(--s--1);text-transform:uppercase;letter-spacing:.16em;
+    color:var(--muted)}
+  .facts dd{margin:.3rem 0 0;font-family:var(--dsp);font-size:var(--s-1);line-height:1.05;
+    color:var(--brand)}
+  .facts dd.txt{font-family:var(--body);font-weight:700;font-size:var(--s-0);line-height:1.3}
+  .facts dd.note{font-family:var(--body);font-size:var(--s--1);color:var(--muted);line-height:1.3}
+  .facts .pin{inline-size:1em;block-size:1em;vertical-align:-.15em;margin-inline-end:.3em}
+  .facts .soon{grid-column:1/-1;background:var(--volt);color:var(--on-volt)}
+  .facts .soon dt,.facts .soon dd{color:var(--on-volt)}
+  .facts .soon dd{font-size:var(--s-2)}
+  @media (min-width:46rem){.facts{grid-template-columns:repeat(4,1fr)}}
+
+  .route{margin:0;border:2px solid var(--ink);background:var(--surface);padding:var(--sp-5);
+    color:var(--brand)}
+  .route svg{display:block;inline-size:100%;block-size:auto;overflow:visible}
+  .route figcaption{font-size:var(--s--1);color:var(--muted);margin-block-start:var(--sp-3)}
+  /* route map image (routes/*-map.svg carries its own colours; it cannot see these tokens) */
+  .route--map{padding:0;overflow:hidden}
+  .route--map img{inline-size:100%}
+  .route--map .map{position:relative}
+  .route--map .osm{position:absolute;inset-block-end:0;inset-inline-end:0;padding:.15rem .45rem;
+    font-size:.7rem;line-height:1.3;color:var(--ink-soft);
+    background:color-mix(in oklab,var(--surface) 85%,transparent)}
+  .route--map .osm a{color:inherit}
+  .route--map figcaption{padding:var(--sp-3) var(--sp-5) var(--sp-5);margin:0}
+  .duo > .prose{margin-block-start:0;align-content:start}
+  .duo + .smallprint{max-inline-size:none;margin-block-start:var(--sp-6)}
+  .prose h2{font-size:var(--s-1)}
 
   .quote{font-family:var(--dsp);font-size:var(--s-2);color:var(--brand);line-height:1.05;
     max-inline-size:20ch;margin-block-start:var(--sp-5)}

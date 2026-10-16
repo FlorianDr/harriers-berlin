@@ -1,6 +1,7 @@
 /* Berlin Harriers — next-run display.
    Stores nothing, reads nothing from the device, makes no network requests.
-   The schedule is fully present in the HTML; this only adds a highlight. */
+   The schedule is fully present in the HTML; this only adds a highlight
+   and, on a run page, the date of that run's next occurrence. */
 (() => {
   "use strict";
   const rows = [...document.querySelectorAll("[data-day]")];
@@ -40,6 +41,16 @@
   document.querySelectorAll("[data-next-day]").forEach(el => {
     el.textContent = isToday ? "today" : d.label;
   });
+
+  // Run pages: the calendar date of that run's next occurrence.
+  const dateEls = document.querySelectorAll("[data-next-date]");
+  if (dateEls.length) {
+    const when = new Date(Date.now() + best.delta * 60000);
+    const fmt = opts => new Intl.DateTimeFormat("en-GB",
+      { timeZone: "Europe/Berlin", day: "numeric", month: "long", ...opts }).format(when);
+    const text = isToday ? `Today, ${fmt({})}` : fmt({ weekday: "long" });
+    dateEls.forEach(el => { el.textContent = text; });
+  }
 
   // Carousel: land on the next run without moving the page.
   const track = document.querySelector(".fixtures");
