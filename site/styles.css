@@ -247,8 +247,7 @@
   .card p{color:var(--ink-soft);font-size:var(--s--1);line-height:1.55}
   .card .btns{margin-block-start:var(--sp-4)}
   .smallprint{margin-block-start:var(--sp-5);padding:1rem 1.1rem;background:var(--surface);
-    border-inline-start:4px solid var(--line);color:var(--muted);font-size:var(--s--1);
-    max-inline-size:var(--measure)}
+    border-inline-start:4px solid var(--line);color:var(--muted);font-size:var(--s--1)}
 
   .quote{font-family:var(--dsp);font-size:var(--s-2);color:var(--brand);line-height:1.05;
     max-inline-size:20ch;margin-block-start:var(--sp-5)}
