@@ -1,0 +1,7 @@
+// Cloudflare Pages config. Once pages_build_output_dir is set, this file is the source of truth
+// for Git builds and the matching dashboard fields become read-only.
+{
+  "name": "berlinharriers",
+  "compatibility_date": "2026-10-24",
+  "pages_build_output_dir": "./site"
+}
