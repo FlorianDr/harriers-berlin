@@ -2,5 +2,5 @@
 # .htaccess is Apache-only and is ignored here.
 /runs           /#runs              301
 /runs/          /#runs              301
-/impressum      /impressum.html     301
-/impressum/     /impressum.html     301
+# No /impressum rule: Pages already serves impressum.html at /impressum and
+# 308-redirects /impressum.html there, so redirecting back would loop.
