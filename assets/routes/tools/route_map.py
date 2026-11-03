@@ -106,7 +106,7 @@ def fetch_osm(bbox, cache):
                 with urllib.request.urlopen(req, timeout=180) as r:
                     raw = r.read()
                 data = json.loads(raw)
-            except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as e:
+            except (OSError, json.JSONDecodeError) as e:  # OSError covers URLError and, on 3.9, socket.timeout
                 print(f"  {url}: {getattr(e, 'code', '')} {e}"[:120], file=sys.stderr)
                 continue
             if cache:

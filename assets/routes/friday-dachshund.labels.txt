@@ -1,0 +1,3 @@
+<text class="m-label m-label--water" x="98" y="80" text-anchor="middle" transform="rotate(-14 98 80)">Spree</text>
+<text class="m-label" x="6" y="118">Tiergarten</text>
+<text class="m-label" x="95" y="108" text-anchor="middle" transform="rotate(-4 95 108)">Unter den Linden</text>

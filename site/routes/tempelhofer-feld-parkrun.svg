@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" role="img"
+     aria-label="Tempelhofer Feld parkrun: a 5 km course on the former airfield">
+  <path d="M29.6 36.6 175.8 25.8 177.5 40.2 183.2 64.5 183.5 76.5 186.0 77.5 178.6 86.0 176.7 88.9 161.0 97.2 158.6 98.9 152.4 105.7 147.6 110.0 140.7 115.0 137.1 117.1 129.4 120.5 123.2 122.3 112.5 124.1 104.6 124.2 90.4 122.4 85.6 121.4 78.9 118.7 79.1 118.2 72.1 115.4 60.3 109.3 48.9 101.5 40.0 94.5 33.2 87.4 32.7 87.8 30.6 85.2 14.0 76.6 16.4 74.3 16.4 68.4 20.0 55.7 18.0 47.2 17.2 37.4 25.4 36.9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="29.6" cy="36.6" r="5" fill="currentColor"/>
+</svg>

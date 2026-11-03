@@ -1,0 +1,1 @@
+<text class="m-label" x="104" y="72" text-anchor="middle">Tempelhofer Feld</text>
