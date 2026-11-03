@@ -75,6 +75,7 @@
 @layer layout{
   .wrap{max-inline-size:72rem;margin-inline:auto;padding-inline:var(--gut)}
   .band{padding-block:var(--stack)}
+  .band + .band{padding-block-start:0}  /* two plain bands in a row: one gap, not two */
   .eyebrow{font-family:var(--body);font-weight:700;font-size:var(--s--1);text-transform:uppercase;
     letter-spacing:.2em;color:var(--brand);display:flex;align-items:center;gap:.8rem;
     margin-block-end:var(--sp-4)}
@@ -136,6 +137,9 @@
   .next .lbl{font-family:var(--body);font-weight:700;font-size:var(--s--1);
     text-transform:uppercase;letter-spacing:.18em}
   .next b{font-family:var(--dsp);font-weight:400;font-size:var(--s-1);line-height:1}
+  .next .run{color:inherit;text-decoration:none}
+  .next .run:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.15em}
+  .next .run:focus-visible{outline-color:var(--on-volt)}
   .next .where{font-size:var(--s--1);opacity:.85}
   .next .join{margin-inline-start:auto;align-self:center;font-family:var(--body);font-weight:700;
     font-size:var(--s--1);text-transform:uppercase;letter-spacing:.08em;text-decoration:none;
@@ -147,10 +151,17 @@
 
   /* photos — P4 */
   .shot{position:relative;overflow:hidden;background:var(--surface)}
-  .shot img{inline-size:100%;filter:saturate(.55) contrast(1.1)}
+  .shot img{inline-size:100%}
   .shot::after{content:"";position:absolute;inset-block-end:9%;inset-inline-start:6%;
     inline-size:26%;block-size:6px;background:var(--volt)}
   .shot figcaption{font-size:var(--s--1);color:var(--muted);padding-block-start:.5rem}
+  /* photo carousel: scroll-snap, no script; the next photo peeks in to show there is more */
+  .gallery{display:grid;grid-auto-flow:column;grid-auto-columns:88%;gap:.6rem;
+    margin-block-start:var(--sp-6);overflow-x:auto;
+    scroll-snap-type:x mandatory;overscroll-behavior-x:contain}
+  .gallery .shot{margin:0;scroll-snap-align:start}
+  .gallery img{block-size:clamp(11rem,30vw,20rem);object-fit:cover}
+  @media (min-width:52rem){.gallery{grid-auto-columns:48%}}
 
   /* S1 fixtures / MO4 carousel */
   .fixtures{border:2px solid var(--ink);margin-block-start:var(--sp-6);container-type:inline-size}
@@ -290,6 +301,7 @@
     color:var(--brand)}
   .facts dd.txt{font-family:var(--body);font-weight:700;font-size:var(--s-0);line-height:1.3}
   .facts dd.note{font-family:var(--body);font-size:var(--s--1);color:var(--muted);line-height:1.3}
+  .facts dd.places > span{display:block}  /* one meeting point per line, pin first */
   .facts .pin{inline-size:1em;block-size:1em;vertical-align:-.15em;margin-inline-end:.3em}
   .facts .soon{grid-column:1/-1;background:var(--volt);color:var(--on-volt)}
   .facts .soon dt,.facts .soon dd{color:var(--on-volt)}

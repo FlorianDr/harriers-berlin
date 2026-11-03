@@ -50,7 +50,7 @@ only Python 3 (standard library) and a network connection to fetch OpenStreetMap
 - **No third-party requests.** The map is drawn once into a static file. The published page never
   contacts OpenStreetMap, which keeps the privacy statement in `impressum.html` true. Don't swap
   this for embedded tiles or a map widget.
-- **Reproducing the current maps:** the committed Monday and Thursday maps come out byte-for-byte
+- **Reproducing the current maps:** the committed Monday, Thursday, Friday and parkrun maps come out byte-for-byte
   from the commands below, given the same OpenStreetMap data (it changes over time, so a fresh
   fetch will differ slightly).
 
@@ -61,4 +61,13 @@ only Python 3 (standard library) and a network connection to fetch OpenStreetMap
   python3 assets/routes/tools/route_map.py assets/routes/thursday-swan.gpx site/routes/thursday-swan-map.svg \
     --title "Thursday Swan" --finish --labels assets/routes/thursday-swan.labels.txt \
     --route-svg site/routes/thursday-swan.svg "Thursday Swan: a 7.1 km run along the Landwehrkanal, finishing at La Maison"
+  python3 assets/routes/tools/route_map.py assets/routes/friday-dachshund.gpx site/routes/friday-dachshund-map.svg \
+    --title "Friday Dachshund" --finish --labels assets/routes/friday-dachshund.labels.txt \
+    --route-svg site/routes/friday-dachshund.svg "Friday Dachshund: a 5.6 km run from the DDR Museum along the Spree, through the Tiergarten and back down Unter den Linden"
+  python3 assets/routes/tools/route_map.py assets/routes/hasenheide-parkrun.gpx site/routes/hasenheide-parkrun-map.svg \
+    --title "Hasenheide parkrun" --labels assets/routes/hasenheide-parkrun.labels.txt \
+    --route-svg site/routes/hasenheide-parkrun.svg "Hasenheide parkrun: a 5 km course in the Volkspark Hasenheide"
+  python3 assets/routes/tools/route_map.py assets/routes/tempelhofer-feld-parkrun.gpx site/routes/tempelhofer-feld-parkrun-map.svg \
+    --title "Tempelhofer Feld parkrun" --labels assets/routes/tempelhofer-feld-parkrun.labels.txt \
+    --route-svg site/routes/tempelhofer-feld-parkrun.svg "Tempelhofer Feld parkrun: a 5 km course on the former airfield"
   ```

@@ -35,11 +35,20 @@
   if (band) {
     band.querySelector("[data-next-when]").textContent = `${d.label} ${d.time}`;
     band.querySelector("[data-next-where]").textContent = d.where;
+    // Link the bar to that run's own page.
+    const link = band.querySelector("[data-next-link]");
+    const page = best.el.querySelector(".name a");
+    if (link && page) link.href = page.getAttribute("href");
   }
   // "See you on Tuesday." — and "today" when the run is still to come today.
   const isToday = +d.day === nowDay && best.delta < 1440;
   document.querySelectorAll("[data-next-day]").forEach(el => {
     el.textContent = isToday ? "today" : d.label;
+  });
+  // "The next one is Tuesday Track today at 19:15."
+  const name = best.el.querySelector(".name a");
+  if (name) document.querySelectorAll("[data-next-run]").forEach(el => {
+    el.textContent = `${name.textContent} ${isToday ? "today" : `on ${d.label}`} at ${d.time}`;
   });
 
   // Run pages: the calendar date of that run's next occurrence.
