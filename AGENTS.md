@@ -33,14 +33,14 @@ Route maps on the run pages are static SVGs drawn from a GPX plus OpenStreetMap 
 covers the GPX privacy check, the required OpenStreetMap credit and renaming on change.
 
 Photos are JPEG at widths 640/1024/1600, served with `srcset`. The hero video is a muted H.264 MP4
-(`-an -vf scale=960:540 -c:v libx264 -crf 34 -movflags +faststart`); it sits behind a heavy purple
+(`-an -vf scale=960:372 -c:v libx264 -crf 34 -movflags +faststart`); it sits behind a heavy purple
 overlay, so it tolerates hard compression.
 
 ## Architecture of `site/`
 
 Three hand-written files, no framework:
 
-- **`index.html`** — single page. The four weekly runs are `<article class="fix">` elements whose
+- **`index.html`** — single page. The five weekly runs are `<article class="fix">` elements whose
   `data-day` / `data-time` / `data-label` / `data-where` attributes are the data source for the
   script. The schedule must stay complete in the HTML — the page has to work with JS disabled.
   Structured data is **microdata attributes, not JSON-LD**, deliberately (no `<script>` beyond
@@ -73,11 +73,11 @@ Three hand-written files, no framework:
   "Alfa Slab", and subsetting makes it a Modified Version that may not use that name (OFL FAQ 2.6,
   3.8). It is the upstream Google Fonts TTF compressed to WOFF2 and nothing else. Archivo has no
   reserved name, so its subset is fine.
-- **External links open in a new tab.** Every link to another site (Discord, Strava, maps,
-  parkrun, OpenStreetMap, …) gets `target="_blank" rel="noopener"` plus a visually hidden
-  `<span class="vh"> (opens in a new tab)</span>` inside the link text, so screen-reader users are
-  told. Internal links (`index.html`, `runs/*.html`, `impressum.html`, the PDFs) and `mailto:`
-  links stay in the same tab.
+- **External and PDF links open in a new tab.** Every link to another site (Discord, Strava, maps,
+  parkrun, OpenStreetMap, …) or to a PDF, including our own, gets `target="_blank" rel="noopener"`
+  plus a visually hidden `<span class="vh"> (opens in a new tab)</span>` inside the link text, so
+  screen-reader users are told. Internal pages (`index.html`, `runs/*.html`, `impressum.html`) and
+  `mailto:` links stay in the same tab.
 - **No AVIF.** It loaded but painted blank in testing; images are JPEG with `srcset`.
 - **Voice rules**: composed body copy, warmer headings, exactly two
   jokes on the page (the bakery line and the asparagus line), no emoji in prose — run emoji are
@@ -85,13 +85,9 @@ Three hand-written files, no framework:
 
 ## Placeholder content that must not ship as real
 
-- The **season record** (`#season`) is invented and marked "PLACEHOLDER DATA — REPLACE BEFORE
-  LAUNCH" in the source.
-- The hero video is a placeholder, to be replaced with real club footage.
 - Route SVG shapes are indicative; real geometry should come from Strava GPX.
 
 ## Deployment notes
 
 - On Cloudflare, keep **Bot Fight Mode** off (it sets a `__cf_bm` cookie) and **Rocket Loader** off
   (it breaks `app.js`). After deploying, `curl -sI <url> | grep -i set-cookie` must print nothing.
-- Don't open crawlers on the production domain until the season record holds real fixtures.

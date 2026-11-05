@@ -1,7 +1,7 @@
 # Berlin Harriers
 
 The website of **[Berlin Harriers e.V.](https://berlinharriers.de)** — a free, English-speaking
-running club in Berlin with four runs a week, no fees, no registration and no set pace.
+running club in Berlin with five runs a week, no fees, no registration and no set pace.
 
 ## The site
 
