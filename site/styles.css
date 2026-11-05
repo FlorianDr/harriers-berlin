@@ -113,6 +113,14 @@
   .masthead .backdrop{position:absolute;inset:0;z-index:-2;inline-size:100%;block-size:100%;
     object-fit:cover;filter:saturate(.5) contrast(1.05)}
   .masthead .backdrop--still{display:none}
+  /* Phones: the header is nearly square, so filling it would crop the wide video
+     to 39% of its width. A shorter video shows more of the picture, fading out low
+     enough that the title still sits over it. */
+  @media (max-width:40rem){
+    .masthead{padding-block-end:2rem}
+    .masthead .backdrop{inset:0 0 auto;block-size:min(72vw,100%);
+      mask-image:linear-gradient(black 70%,transparent)}
+  }
   .masthead::after{content:"";position:absolute;inset:0;z-index:-1;
     background:linear-gradient(180deg,
       color-mix(in oklab,var(--purple-deep) 78%,transparent) 0%,
@@ -196,6 +204,11 @@
     color:color-mix(in oklab,var(--on-purple) 78%,transparent)}
   .fix a{color:var(--brand);transition:color var(--dur-base)}
   .fix:hover a,.fix:focus-within a{color:var(--volt)}
+  /* A tap navigates straight away, which would catch the wipe half-way across
+     the row. Touch screens get the full fill and its colours immediately. */
+  @media (hover:none){
+    .fix,.fix .day,.fix .when,.fix .after,.fix .rt,.fix a{transition:none}
+  }
   .fix.today{box-shadow:inset 4px 0 0 var(--volt)}
   .fix .todaytag{display:none;font-size:.62rem;font-weight:700;letter-spacing:.14em;
     text-transform:uppercase;background:var(--volt);color:var(--on-volt);padding:.1rem .4rem}
@@ -219,12 +232,21 @@
   }
 
   /* A4 season record */
-  .season{border:2px solid var(--ink);margin-block-start:var(--sp-6)}
-  .season .row{display:grid;grid-template-columns:auto 1fr auto;gap:.5rem 1rem;
+  .season{border:2px solid var(--ink);margin-block-start:var(--sp-6);
+    container:season/inline-size}
+  .season .row{display:grid;grid-template-columns:4.75rem 1fr auto;gap:.5rem 1rem;
     padding:.85rem 1.1rem;border-block-end:1px solid var(--line);align-items:baseline}
   .season .row:last-child{border-block-end:0}
-  .season .dt{font-size:var(--s--1);color:var(--muted);font-variant-numeric:tabular-nums;
-    min-inline-size:4.2rem}
+  /* Past races scroll inside the box. The "local" layers cover the "scroll"
+     shadows at each end, so a shadow only shows where there is more to see. */
+  .season .past{overflow-y:auto;max-block-size:15rem;background:
+    linear-gradient(var(--paper) 30%,transparent) top/100% 2.5rem no-repeat local,
+    linear-gradient(transparent,var(--paper) 70%) bottom/100% 2.5rem no-repeat local,
+    linear-gradient(color-mix(in oklab,var(--ink) 18%,transparent),transparent) top/100% .75rem no-repeat scroll,
+    linear-gradient(transparent,color-mix(in oklab,var(--ink) 18%,transparent)) bottom/100% .75rem no-repeat scroll}
+  .season .past .row{box-sizing:border-box;min-block-size:3.75rem;align-content:center}
+  .season .past:focus-visible{outline-offset:-3px}
+  .season .dt{font-size:var(--s--1);color:var(--muted);font-variant-numeric:tabular-nums}
   .season .ev{font-weight:700}
   .season .rs{font-family:var(--dsp);color:var(--brand);font-size:var(--s--1);white-space:nowrap}
   .season .rs.win{color:var(--volt-ink)}
@@ -232,6 +254,14 @@
     font-family:var(--body);font-weight:700;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase}
   .season .row.up .ev{color:var(--ink-soft)}
   .season .row.up .rs{color:var(--volt-ink)}
+  @container season (inline-size < 36rem){
+    .season .past{max-block-size:25.25rem}  /* two of the latest four names wrap */
+    .season .row{grid-template-columns:4.75rem minmax(0,1fr)}
+    .season .rs{grid-column:2}
+  }
+  @container season (24rem <= inline-size < 36rem){
+    .season .past{max-block-size:22rem}
+  }
 
   /* buttons B1 */
   .btns{display:flex;flex-wrap:wrap;gap:.9rem;margin-block-start:var(--sp-5)}
@@ -250,6 +280,9 @@
   .cta h2{color:var(--volt)}
   .cta p{color:color-mix(in oklab,var(--on-purple) 84%,transparent);max-inline-size:50ch;
     margin-block-start:var(--sp-4);font-size:var(--s-1);line-height:1.4}
+  .cta p a{color:var(--volt);font-weight:700;text-underline-offset:.15em}
+  .cta p a:hover{color:var(--on-purple)}
+  .cta p a:focus-visible{outline-color:var(--volt)}
   .cta .btn.ghost{color:var(--volt);border-color:var(--volt);box-shadow:5px 5px 0 var(--purple-deep)}
   .cta--slim{padding-block:var(--sp-6)}
   .cta--slim .wrap{display:flex;flex-wrap:wrap;gap:var(--sp-4);align-items:center;
@@ -266,6 +299,14 @@
   .card .btns{margin-block-start:var(--sp-4)}
   .smallprint{margin-block-start:var(--sp-5);padding:1rem 1.1rem;background:var(--surface);
     border-inline-start:4px solid var(--line);color:var(--muted);font-size:var(--s--1)}
+  .smallprint summary{display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-4);
+    cursor:pointer;list-style:none}
+  .smallprint summary::-webkit-details-marker{display:none}
+  .smallprint summary::after{content:"+";flex:none;font-size:1.6em;line-height:.8;color:var(--volt-ink);
+    transition:rotate var(--dur-base) var(--ease-out)}
+  .smallprint[open] summary::after{rotate:45deg}
+  .smallprint summary:hover{color:var(--ink)}
+  .smallprint p{margin-block-start:.5rem}
 
   /* FAQ — native <details>, works without JS */
   .faq{margin-block-start:var(--sp-6);border-block-start:2px solid var(--line)}
@@ -302,7 +343,7 @@
   .facts dd.txt{font-family:var(--body);font-weight:700;font-size:var(--s-0);line-height:1.3}
   .facts dd.note{font-family:var(--body);font-size:var(--s--1);color:var(--muted);line-height:1.3}
   .facts dd.places > span{display:block}  /* one meeting point per line, pin first */
-  .facts .pin{inline-size:1em;block-size:1em;vertical-align:-.15em;margin-inline-end:.3em}
+  .facts .pin,.next .pin{inline-size:1em;block-size:1em;vertical-align:-.15em;margin-inline-end:.3em}
   .facts .soon{grid-column:1/-1;background:var(--volt);color:var(--on-volt)}
   .facts .soon dt,.facts .soon dd{color:var(--on-volt)}
   .facts .soon dd{font-size:var(--s-2)}

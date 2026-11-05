@@ -35,11 +35,12 @@
   if (band) {
     band.querySelector("[data-next-when]").textContent = `${d.label} ${d.time}`;
     band.querySelector("[data-next-where]").textContent = d.where;
-    // Link the bar to that run's own page.
-    const link = band.querySelector("[data-next-link]");
-    const page = best.el.querySelector(".name a");
-    if (link && page) link.href = page.getAttribute("href");
   }
+  // Point every next-run link at that run's own page.
+  const page = best.el.querySelector(".name a");
+  if (page) document.querySelectorAll("[data-next-link]").forEach(link => {
+    link.href = page.getAttribute("href");
+  });
   // "See you on Tuesday." — and "today" when the run is still to come today.
   const isToday = +d.day === nowDay && best.delta < 1440;
   document.querySelectorAll("[data-next-day]").forEach(el => {
