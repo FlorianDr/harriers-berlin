@@ -181,24 +181,26 @@
       that matters is how many of us turned up.</p>
 
     <div class="season">
-      <div class="past" role="region" aria-label="Past races" tabindex="0">
-      <div class="row"><span class="dt num">18 Oct</span><span class="ev">Amsterdam Marathon</span><span class="rs">1 ran</span></div>
-      <div class="row"><span class="dt num">27 Sep</span><span class="ev">Berlin Marathon</span><span class="rs">5 ran</span></div>
-      <div class="row"><span class="dt num">13 Sep</span><span class="ev">Kreuzberger Viertelmarathon</span><span class="rs">2 ran</span></div>
-      <div class="row"><span class="dt num">6 Sep</span><span class="ev">Reinickendorf Halbmarathon</span><span class="rs">2 ran</span></div>
-      <div class="row"><span class="dt num">15–16 Aug</span><span class="ev">Mauerweglauf (100 Miles Berlin)</span><span class="rs win">1st place</span></div>
-      <div class="row"><span class="dt num">13 Jun</span><span class="ev">Tschirgant Trail Race</span><span class="rs">17 ran</span></div>
-      <div class="row"><span class="dt num">10 May</span><span class="ev">Wings for Life World Run</span><span class="rs">2 ran</span></div>
-      <div class="row"><span class="dt num">20 Apr</span><span class="ev">Boston Marathon</span><span class="rs">2 ran</span></div>
-      <div class="row"><span class="dt num">19 Apr</span><span class="ev">Vienna Marathon</span><span class="rs">2 ran</span></div>
-      <div class="row"><span class="dt num">12 Apr</span><span class="ev">Rotterdam Marathon</span><span class="rs">1 ran</span></div>
-      <div class="row"><span class="dt num">6 Mar</span><span class="ev">Transgrancanaria</span><span class="rs">3 ran</span></div>
-      <div class="row"><span class="dt num">1 Mar</span><span class="ev">Kleinmachnow Backyard Half Marathon</span><span class="rs win">1st place</span></div>
+      <!-- Oldest first. data-race is the race's last day (YYYY-MM-DD); app.js
+           compares it with today in Berlin to place the "Upcoming races" marker.
+           For a month-only date, use the last day of that month. -->
+      <div class="races" role="region" aria-label="Race calendar" tabindex="0">
+      <div class="row" data-race="2026-03-01"><span class="dt num">1 Mar</span><span class="ev">Kleinmachnow Backyard Half Marathon</span><span class="rs win">1st place</span></div>
+      <div class="row" data-race="2026-03-06"><span class="dt num">6 Mar</span><span class="ev">Transgrancanaria</span><span class="rs">3 ran</span></div>
+      <div class="row" data-race="2026-04-12"><span class="dt num">12 Apr</span><span class="ev">Rotterdam Marathon</span><span class="rs">1 ran</span></div>
+      <div class="row" data-race="2026-04-19"><span class="dt num">19 Apr</span><span class="ev">Vienna Marathon</span><span class="rs">2 ran</span></div>
+      <div class="row" data-race="2026-04-20"><span class="dt num">20 Apr</span><span class="ev">Boston Marathon</span><span class="rs">2 ran</span></div>
+      <div class="row" data-race="2026-05-10"><span class="dt num">10 May</span><span class="ev">Wings for Life World Run</span><span class="rs">2 ran</span></div>
+      <div class="row" data-race="2026-06-13"><span class="dt num">13 Jun</span><span class="ev">Tschirgant Trail Race</span><span class="rs">17 ran</span></div>
+      <div class="row" data-race="2026-08-16"><span class="dt num">15–16 Aug</span><span class="ev">Mauerweglauf (100 Miles Berlin)</span><span class="rs win">1st place</span></div>
+      <div class="row" data-race="2026-09-06"><span class="dt num">6 Sep</span><span class="ev">Reinickendorf Halbmarathon</span><span class="rs">2 ran</span></div>
+      <div class="row" data-race="2026-09-13"><span class="dt num">13 Sep</span><span class="ev">Kreuzberger Viertelmarathon</span><span class="rs">2 ran</span></div>
+      <div class="row" data-race="2026-09-27"><span class="dt num">27 Sep</span><span class="ev">Berlin Marathon</span><span class="rs">5 ran</span></div>
+      <div class="row" data-race="2026-10-18"><span class="dt num">18 Oct</span><span class="ev">Amsterdam Marathon</span><span class="rs">1 ran</span></div>
+      <div class="row" data-race="2026-11-08"><span class="dt num">8 Nov</span><span class="ev">Schmalzstullenlauf</span></div>
+      <div class="row" data-race="2026-11-15"><span class="dt num">15 Nov</span><span class="ev">Verona Halfmarathon</span></div>
+      <div class="row" data-race="2027-01-31"><span class="dt num">Jan 2027</span><span class="ev">Winterserie (5k/10k/HM)</span></div>
       </div>
-      <div class="now">Upcoming races</div>
-      <div class="row up"><span class="dt num">8 Nov</span><span class="ev">Schmalzstullenlauf</span></div>
-      <div class="row up"><span class="dt num">15 Nov</span><span class="ev">Verona Halfmarathon</span></div>
-      <div class="row up"><span class="dt num">Jan 2027</span><span class="ev">Winterserie (5k/10k/HM)</span></div>
     </div>
 
 

@@ -237,15 +237,17 @@
   .season .row{display:grid;grid-template-columns:4.75rem 1fr auto;gap:.5rem 1rem;
     padding:.85rem 1.1rem;border-block-end:1px solid var(--line);align-items:baseline}
   .season .row:last-child{border-block-end:0}
-  /* Past races scroll inside the box. The "local" layers cover the "scroll"
-     shadows at each end, so a shadow only shows where there is more to see. */
-  .season .past{overflow-y:auto;max-block-size:15rem;background:
+  /* All races scroll inside the box, oldest first; app.js adds the .now marker
+     and scrolls it into view. The "local" layers cover the "scroll" shadows at
+     each end, so a shadow only shows where there is more to see. position:
+     relative makes the list the offsetParent its script measures against. */
+  .season .races{position:relative;overflow-y:auto;max-block-size:22.5rem;background:
     linear-gradient(var(--paper) 30%,transparent) top/100% 2.5rem no-repeat local,
     linear-gradient(transparent,var(--paper) 70%) bottom/100% 2.5rem no-repeat local,
     linear-gradient(color-mix(in oklab,var(--ink) 18%,transparent),transparent) top/100% .75rem no-repeat scroll,
     linear-gradient(transparent,color-mix(in oklab,var(--ink) 18%,transparent)) bottom/100% .75rem no-repeat scroll}
-  .season .past .row{box-sizing:border-box;min-block-size:3.75rem;align-content:center}
-  .season .past:focus-visible{outline-offset:-3px}
+  .season .races .row{box-sizing:border-box;min-block-size:3.75rem;align-content:center}
+  .season .races:focus-visible{outline-offset:-3px}
   .season .dt{font-size:var(--s--1);color:var(--muted);font-variant-numeric:tabular-nums}
   .season .ev{font-weight:700}
   .season .rs{font-family:var(--dsp);color:var(--brand);font-size:var(--s--1);white-space:nowrap}
@@ -253,14 +255,13 @@
   .season .now{background:var(--purple);color:var(--on-purple);padding:.35rem 1.1rem;
     font-family:var(--body);font-weight:700;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase}
   .season .row.up .ev{color:var(--ink-soft)}
-  .season .row.up .rs{color:var(--volt-ink)}
   @container season (inline-size < 36rem){
-    .season .past{max-block-size:25.25rem}  /* two of the latest four names wrap */
+    .season .races{max-block-size:25.25rem}  /* rows grow when names wrap */
     .season .row{grid-template-columns:4.75rem minmax(0,1fr)}
     .season .rs{grid-column:2}
   }
   @container season (24rem <= inline-size < 36rem){
-    .season .past{max-block-size:22rem}
+    .season .races{max-block-size:22rem}
   }
 
   /* buttons B1 */
