@@ -255,9 +255,9 @@
   .season .row.up .ev{color:var(--ink-soft)}
   .season .row.up .rs{color:var(--volt-ink)}
   @container season (inline-size < 36rem){
-    .season .past{max-block-size:25.25rem}  /* two of the latest four names wrap */
+    .season .past{max-block-size:25.25rem}  /* roughly four races, allowing for wrapped names */
     .season .row{grid-template-columns:4.75rem minmax(0,1fr)}
-    .season .rs{grid-column:2}
+    .season .rs{grid-column:2;white-space:normal}
   }
   @container season (24rem <= inline-size < 36rem){
     .season .past{max-block-size:22rem}

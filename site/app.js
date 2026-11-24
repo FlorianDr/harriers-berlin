@@ -1,7 +1,35 @@
-/* Berlin Harriers — next-run display.
+/* Berlin Harriers — next-run display and past/upcoming races.
    Stores nothing, reads nothing from the device, makes no network requests.
    The schedule is fully present in the HTML; this only adds a highlight
-   and, on a run page, the date of that run's next occurrence. */
+   and, on a run page, the date of that run's next occurrence. Races that
+   are over move from the upcoming list to the past one. */
+(() => {
+  "use strict";
+  const past = document.querySelector(".season .past");
+  if (!past) return;
+
+  // Today in Berlin as YYYY-MM-DD, so dates compare as plain strings.
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Berlin", year: "numeric", month: "2-digit", day: "2-digit"
+  }).formatToParts(new Date());
+  const get = t => parts.find(p => p.type === t).value;
+  const today = `${get("year")}-${get("month")}-${get("day")}`;
+
+  // Oldest first, each to the top: the past list stays newest first.
+  // A race counts as past from the day after it ends.
+  [...document.querySelectorAll(".season .row.up[data-ends]")]
+    .filter(row => row.dataset.ends < today)
+    .sort((a, b) => a.dataset.ends.localeCompare(b.dataset.ends))
+    .forEach(row => {
+      row.classList.remove("up");
+      past.prepend(row);
+    });
+
+  if (!document.querySelector(".season .row.up")) {
+    document.querySelector(".season .now").hidden = true;
+  }
+})();
+
 (() => {
   "use strict";
   const rows = [...document.querySelectorAll("[data-day]")];
