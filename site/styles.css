@@ -184,11 +184,13 @@
   .fix:last-child{border-block-end:0}
   .fix:hover,.fix:focus-within{background-size:100% 100%;color:var(--on-purple)}
   .fix .day{font-family:var(--dsp);font-size:var(--s-1);color:var(--brand);line-height:.9;
-    min-inline-size:4.2rem;transition:color var(--dur-base)}
+    align-self:baseline;min-inline-size:4.2rem;transition:color var(--dur-base)}
   .fix:hover .day,.fix:focus-within .day{color:var(--volt)}
-  .fix .name{font-weight:700;align-self:center;display:flex;align-items:center;gap:.5rem}
+  .fix .name{font-weight:700;align-self:baseline;display:flex;align-items:baseline;gap:.5rem}
   .fix .mark{font-size:1.1em;line-height:1}
-  .fix .name a{color:inherit;text-decoration:none}  /* before the hover rule below, so hover still turns it volt */
+  /* The weekday is visually hidden in the link (the day column shows it), so
+     "parkrun" opens the visible name and takes a capital like its neighbours. */
+  .fix .name a{color:inherit;text-decoration:none;text-transform:capitalize}  /* before the hover rule below, so hover still turns it volt */
   .fix:hover .name a,.fix:focus-within .name a{text-decoration:underline}
   /* The name link covers the whole card; links in the description sit above it. */
   .fix .name a::after{content:"";position:absolute;inset:0}
@@ -258,7 +260,7 @@
   @container season (inline-size < 36rem){
     .season .races{max-block-size:25.25rem}  /* rows grow when names wrap */
     .season .row{grid-template-columns:4.75rem minmax(0,1fr)}
-    .season .rs{grid-column:2}
+    .season .rs{grid-column:2;white-space:normal}
   }
   @container season (24rem <= inline-size < 36rem){
     .season .races{max-block-size:22rem}
