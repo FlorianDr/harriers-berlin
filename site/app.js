@@ -1,35 +1,9 @@
-/* Berlin Harriers — next-run display and past/upcoming races.
+/* Berlin Harriers — next-run display.
    Stores nothing, reads nothing from the device, makes no network requests.
    The schedule is fully present in the HTML; this only adds a highlight
-   and, on a run page, the date of that run's next occurrence. Races that
-   are over move from the upcoming list to the past one. */
-(() => {
-  "use strict";
-  const past = document.querySelector(".season .past");
-  if (!past) return;
-
-  // Today in Berlin as YYYY-MM-DD, so dates compare as plain strings.
-  const parts = new Intl.DateTimeFormat("en-GB", {
-    timeZone: "Europe/Berlin", year: "numeric", month: "2-digit", day: "2-digit"
-  }).formatToParts(new Date());
-  const get = t => parts.find(p => p.type === t).value;
-  const today = `${get("year")}-${get("month")}-${get("day")}`;
-
-  // Oldest first, each to the top: the past list stays newest first.
-  // A race counts as past from the day after it ends.
-  [...document.querySelectorAll(".season .row.up[data-ends]")]
-    .filter(row => row.dataset.ends < today)
-    .sort((a, b) => a.dataset.ends.localeCompare(b.dataset.ends))
-    .forEach(row => {
-      row.classList.remove("up");
-      past.prepend(row);
-    });
-
-  if (!document.querySelector(".season .row.up")) {
-    document.querySelector(".season .now").hidden = true;
-  }
-})();
-
+   and, on a run page, the date of that run's next occurrence. The race
+   calendar is complete in the HTML too; this only places the "Upcoming
+   races" marker and scrolls the list to it. */
 (() => {
   "use strict";
   const rows = [...document.querySelectorAll("[data-day]")];
@@ -95,4 +69,31 @@
   if (track && getComputedStyle(track).overflowX !== "visible") {
     track.scrollLeft = best.el.offsetLeft - track.offsetLeft;
   }
+})();
+
+/* Race calendar: mark where today falls in the oldest-first list, then scroll
+   the list (never the page, so no scrollIntoView) to show that spot. */
+(() => {
+  "use strict";
+  const list = document.querySelector(".season .races");
+  if (!list) return;
+  const races = [...list.querySelectorAll("[data-race]")];
+
+  // Today in Berlin as YYYY-MM-DD; ISO dates compare correctly as strings.
+  const today = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Berlin", year: "numeric", month: "2-digit", day: "2-digit"
+  }).format(new Date());
+
+  // A race still counts as upcoming on its last day.
+  const next = races.find(r => r.dataset.race >= today);
+  if (next) {
+    const marker = document.createElement("div");
+    marker.className = "now";
+    marker.textContent = "Upcoming races";
+    next.before(marker);
+    races.slice(races.indexOf(next)).forEach(r => r.classList.add("up"));
+  }
+
+  // Open at the bottom: the latest races, then what's coming up.
+  list.scrollTop = list.scrollHeight;
 })();

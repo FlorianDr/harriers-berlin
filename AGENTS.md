@@ -52,6 +52,11 @@ Three hand-written files, no framework:
 - **`app.js`** — the only JavaScript. Computes the next run in **Europe/Berlin** via `Intl` (not the
   visitor's clock), highlights that row, fills the sticky band and `[data-next-day]` spans, and sets
   the carousel's `scrollLeft` directly. Never use `scrollIntoView` there — it scrolls the page.
+  It also places the "Upcoming races" marker in the season record (`#season`): races are listed
+  oldest first in the HTML, each with `data-race="YYYY-MM-DD"` (the race's last day), and the
+  script inserts the marker before the first race on or after today in Berlin, then sets the
+  list's `scrollTop` so it opens at the bottom. Without JS the list is complete, just unmarked.
+  To add a race, insert its row in date order; when a race is over, add its result (`<span class="rs">N ran</span>`).
 - **`impressum.html`** — German legal page (Impressum + Datenschutzerklärung), shares `styles.css`.
 - `_headers` / `_redirects` are Cloudflare Pages config; `.htaccess` is the Apache equivalent.
 
