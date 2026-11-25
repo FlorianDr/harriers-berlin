@@ -91,7 +91,14 @@
     marker.className = "now";
     marker.textContent = "Upcoming races";
     next.before(marker);
-    races.slice(races.indexOf(next)).forEach(r => r.classList.add("up"));
+    races.slice(races.indexOf(next)).forEach(r => {
+      r.classList.add("up");
+      if (r.querySelector(".rs")) return;
+      const status = document.createElement("span");
+      status.className = "rs";
+      status.textContent = "upcoming";
+      r.append(status);
+    });
   }
 
   // Open at the bottom: the latest races, then what's coming up.
