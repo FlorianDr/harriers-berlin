@@ -38,6 +38,10 @@ Social cards (`site/og/*.jpg`, 1200×630) are rendered from `assets/og/card.html
 meeting point changes, update the `RUNS` table in `card.html` and re-render; check them all with
 `assets/og/preview.html` (serve the repo root, not `site/`).
 
+`site/llms.txt` repeats the weekly schedule as plain text for AI crawlers, so update it too when a
+run changes or a page is added. Keep its "Information scope" note: the runs are informal, not
+organised club events, which matches the disclaimer on the run pages.
+
 Photos are JPEG at widths 640/1024/1600, served with `srcset`. The hero video is a muted H.264 MP4
 (`-an -vf scale=960:372 -c:v libx264 -crf 34 -movflags +faststart`); it sits behind a heavy purple
 overlay, so it tolerates hard compression.
