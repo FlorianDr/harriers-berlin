@@ -1,31 +1,74 @@
-# Apache config for the Hetzner webhosting. Mirrors _headers / _redirects, which only
-# Cloudflare Pages reads (they are not uploaded by the deploy workflow).
+#KONSOLEH AREA START - PLEASE DO NOT EDIT MANUALLY BETWEEN THESE LINES
+#KONSOLEH AREA END - PLEASE ADD MANUAL CHANGES BELOW
 
-# Always HTTPS
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteCond %{HTTPS} !=on
-  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-</IfModule>
+# Apache config for the Hetzner webhosting (konsoleH writes its own settings between the
+# lines above; keep them). _headers / _redirects are the Cloudflare Pages equivalents:
+# change both together. They are not uploaded.
 
+Options -Indexes
 ErrorDocument 404 /404.html
 
-# legacy URLs from the previous site
-RedirectMatch 301 ^/runs/?$        /#runs
-RedirectMatch 301 ^/impressum/?$   /impressum.html
-RedirectMatch 301 ^/membership/?$  /membership.html
-RedirectMatch 301 ^/documents/code-of-conduct\.pdf$         /code-of-conduct.pdf
-RedirectMatch 301 ^/documents/statutes\.pdf$                /satzung.pdf
-RedirectMatch 301 ^/documents/membership-application\.pdf$  /membership-application.pdf
+RewriteEngine On
+
+# One step to HTTPS on the bare domain, so every page has a single canonical URL.
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} !^berlinharriers\.de$ [NC]
+RewriteRule ^ https://berlinharriers.de%{REQUEST_URI} [R=301,L]
+
+# berlinharriers.de/mail is a shortcut to the Hetzner webmail login.
+RewriteRule ^mail(/.*)?$ https://webmail.your-server.de/ [R=302,L,QSD]
+<If "%{REQUEST_URI} =~ m#^/mail(/|$)#">
+  Header always set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
+</If>
+
+# URLs of the previous site. NE keeps "#runs" a fragment instead of escaping it to %23.
+RewriteRule ^index\.htm$                           /                           [R=301,L]
+RewriteRule ^impressum(\.htm|/)?$                  /impressum.html             [R=301,L]
+RewriteRule ^runs(\.htm|/)?$                       /#runs                      [R=301,L,NE]
+RewriteRule ^membership(/|/index\.htm)?$           /membership.html            [R=301,L]
+RewriteRule ^documents/code-of-conduct\.pdf$        /code-of-conduct.pdf        [R=301,L]
+RewriteRule ^documents/statutes\.pdf$               /satzung.pdf                [R=301,L]
+RewriteRule ^documents/membership-application\.pdf$ /membership-application.pdf [R=301,L]
+
+# Never serve dotfiles (.htaccess, stray .git*, .DS_Store). /.well-known/ is a directory,
+# so ACME challenges inside it still work.
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
+# Correct types for everything the site serves; nosniff would block a wrong one.
+AddType text/html .html
+AddType text/css .css
+AddType text/javascript .js
+AddType image/jpeg .jpg
+AddType image/png .png
+AddType image/svg+xml .svg
+AddType image/x-icon .ico
+AddType font/woff2 .woff2
+AddType video/mp4 .mp4
+AddType application/pdf .pdf
+AddType text/plain .txt
+AddType application/xml .xml
+AddCharset utf-8 .html .css .js .svg .txt .xml
 
 <IfModule mod_headers.c>
+  # Only files from this site, nothing inline: no <style>, style="", <script> blocks or
+  # on*="" handlers. Page-specific CSS belongs in styles.css, script in app.js.
+  Header always set Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; media-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
   Header always set Strict-Transport-Security "max-age=31536000"
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
-  Header always set X-Frame-Options "SAMEORIGIN"
-  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), interest-cohort=()"
+  Header always set X-Frame-Options "DENY"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  # No autoplay=(): it would stop the muted hero video.
+  Header always set Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), microphone=(), payment=(), usb=()"
 
   # File names carry no content hash, so nothing may be cached blindly: browsers keep
   # their copy but revalidate it on every visit (a cheap 304 when unchanged).
   Header set Cache-Control "no-cache"
+
+  # The application form is meant to be filled in offline: download it.
+  <Files "membership-application.pdf">
+    Header set Content-Disposition "attachment"
+  </Files>
 </IfModule>

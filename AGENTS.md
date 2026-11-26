@@ -72,9 +72,13 @@ Three hand-written files, no framework:
   list's `scrollTop` so it opens at the bottom. Without JS the list is complete, just unmarked.
   To add a race, insert its row in date order; when a race is over, add its result (`<span class="rs">N ran</span>`).
 - **`impressum.html`** — German legal page (Impressum + Datenschutzerklärung), shares `styles.css`.
-- `.htaccess` is the live server config (Apache on Hetzner): HTTPS redirect, security headers,
-  caching, legacy redirects. `_headers` / `_redirects` are the Cloudflare Pages equivalents, kept in
-  sync but not uploaded. Change both together.
+- `.htaccess` is the live server config (Apache on Hetzner): one-step redirect to
+  `https://berlinharriers.de` (no `www`), security headers including the CSP, `no-cache`, MIME
+  types, `Options -Indexes`, blocked dotfiles, the `/mail` shortcut to Hetzner webmail and
+  redirects for every URL of the previous site (`/index.htm`, `/impressum.htm`, `/runs.htm`,
+  `/membership/index.htm`, `/documents/*.pdf`). Keep the empty `#KONSOLEH AREA` block at the top:
+  Hetzner's panel writes its own settings there. `_headers` / `_redirects` are the Cloudflare Pages
+  equivalents, kept in sync but not uploaded. Change both together.
 
 ## Constraints that are easy to break
 
@@ -83,6 +87,22 @@ Three hand-written files, no framework:
   reads the clock and sends nothing. That is why no consent banner is needed. Any change that adds a
   CDN, embed (Instagram, YouTube, maps), analytics or storage breaks the legal text. Link out
   instead. If hosting changes, §3 of `impressum.html` (currently names Hetzner) must change too.
+- **No inline CSS or JS — the Content-Security-Policy forbids it.** The CSP (in `.htaccess` and
+  `_headers`) allows only files from this site: `script-src 'self'; style-src 'self'`, with no
+  `'unsafe-inline'`, ever. So no `<style>` blocks, no `style=""` attributes, no inline `<script>`,
+  no `on*=""` handlers and no `javascript:` URLs, and `app.js` must not set `style` attributes
+  (`element.style.x = …` is fine). Page-specific CSS goes in `styles.css` as a class at the **end
+  of the `components` layer** (e.g. `.masthead--compact`, `.notfound`, `.prose--sections`), where it
+  wins over the general rules the way an inline style did; scope it with a modifier class rather
+  than restyling a shared class such as `.prose`. A new kind of resource needs its CSP directive
+  in both files (e.g. a web manifest needs `manifest-src 'self'`).
+- **Check visual refactors with before/after screenshots.** When moving CSS or touching headers,
+  render each affected page at 390px and 1280px with headless Chrome before and after the change,
+  served the same way (both from Apache, or both from `python3 -m http.server`; mixing servers
+  changes the render), and compare the PNGs byte for byte. Open any pair that differs. Re-render
+  it a few times first: the 404 page's `ch`-based width can flip with font-load timing. Run Chrome
+  with `--enable-logging=stderr --v=1` and grep the log for "violates the following Content
+  Security Policy" to catch CSP breakage.
 - **Fixture-row hover**: the purple wipe is a `background-size` transition on the row itself.
   Don't move it to a pseudo-element — text colour and fill must live on the same element or the
   row turns white-on-white. Links inside a hovered row must switch to volt.
@@ -94,6 +114,7 @@ Three hand-written files, no framework:
   "Alfa Slab", and subsetting makes it a Modified Version that may not use that name (OFL FAQ 2.6,
   3.8). It is the upstream Google Fonts TTF compressed to WOFF2 and nothing else. Archivo has no
   reserved name, so its subset is fine.
+- **Permissions-Policy must not contain `autoplay=()`** — it would stop the muted hero video.
 - **External and PDF links open in a new tab.** Every link to another site (Discord, Strava, maps,
   parkrun, OpenStreetMap, …) or to a PDF, including our own, gets `target="_blank" rel="noopener"`
   plus a visually hidden `<span class="vh"> (opens in a new tab)</span>` inside the link text, so
