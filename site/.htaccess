@@ -1,6 +1,10 @@
 # legacy URLs from the previous site
 RedirectMatch 301 ^/runs/?$        /#runs
 RedirectMatch 301 ^/impressum/?$   /impressum.html
+RedirectMatch 301 ^/membership/?$  /membership.html
+RedirectMatch 301 ^/documents/code-of-conduct\.pdf$         /code-of-conduct.pdf
+RedirectMatch 301 ^/documents/statutes\.pdf$                /satzung.pdf
+RedirectMatch 301 ^/documents/membership-application\.pdf$  /membership-application.pdf
 
 <IfModule mod_headers.c>
   <FilesMatch "\.(woff2|avif|jpg|png|svg)$">
