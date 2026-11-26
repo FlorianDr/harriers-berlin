@@ -1,0 +1,69 @@
+# Uploads site/ to the Hetzner webhosting over FTPS (FTP with TLS) on every push to main.
+#
+# Setup (once): repo Settings → Environments → "production" → add secrets
+#   FTP_USERNAME, FTP_PASSWORD
+# and, under "Deployment branches", allow only main.
+#
+# Only files that changed are uploaded; the action keeps its record in
+# .ftp-deploy-sync-state.json on the server. It deletes only files it uploaded
+# itself, never anything else on the server.
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", ".github/workflows/deploy.yml"]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Only list what would change, upload nothing"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://berlinharriers.de/
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Upload site/ over FTPS
+        uses: SamKirkland/FTP-Deploy-Action@110f9186c050f71550953127052e77650219c287 # v4.4.0
+        with:
+          server: www325.your-server.de
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps # explicit TLS on port 21; never plain "ftp"
+          security: strict # verify the server certificate
+          local-dir: ./site/
+          server-dir: ./ # the FTP login lands in the web root
+          dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.DS_Store
+            _headers
+            _redirects
+
+      - name: Check the live site sets no cookies
+        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
+        run: |
+          headers=$(curl -sSfI https://berlinharriers.de/)
+          echo "$headers"
+          if echo "$headers" | grep -qi '^set-cookie'; then
+            echo "::error::The site sets a cookie, which breaks the privacy policy."
+            exit 1
+          fi

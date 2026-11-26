@@ -24,8 +24,9 @@ cd site && python3 -m http.server 8899
 # Syntax-check the only script
 node --check site/app.js
 
-# Deploy (Cloudflare Pages project "berlinharriers", output dir = site/)
-wrangler pages deploy site --project-name=berlinharriers
+# Deploy: merge to main. .github/workflows/deploy.yml uploads site/ over FTPS to the
+# Hetzner webhosting (www325.your-server.de). Run it by hand from the Actions tab with
+# "dry run" ticked to see what would change.
 ```
 
 Route maps on the run pages are static SVGs drawn from a GPX plus OpenStreetMap data by
@@ -71,7 +72,9 @@ Three hand-written files, no framework:
   list's `scrollTop` so it opens at the bottom. Without JS the list is complete, just unmarked.
   To add a race, insert its row in date order; when a race is over, add its result (`<span class="rs">N ran</span>`).
 - **`impressum.html`** — German legal page (Impressum + Datenschutzerklärung), shares `styles.css`.
-- `_headers` / `_redirects` are Cloudflare Pages config; `.htaccess` is the Apache equivalent.
+- `.htaccess` is the live server config (Apache on Hetzner): HTTPS redirect, security headers,
+  caching, legacy redirects. `_headers` / `_redirects` are the Cloudflare Pages equivalents, kept in
+  sync but not uploaded. Change both together.
 
 ## Constraints that are easy to break
 
@@ -107,5 +110,13 @@ Three hand-written files, no framework:
 
 ## Deployment notes
 
-- On Cloudflare, keep **Bot Fight Mode** off (it sets a `__cf_bm` cookie) and **Rocket Loader** off
-  (it breaks `app.js`). After deploying, `curl -sI <url> | grep -i set-cookie` must print nothing.
+- Hosting is Hetzner webhosting. Deploys run from GitHub Actions over FTPS (`protocol: ftps`,
+  `security: strict`; never plain FTP), with `FTP_USERNAME` / `FTP_PASSWORD` stored as secrets of the
+  `production` environment. Actions are pinned to commit SHAs; when bumping one, resolve the
+  **tag** (`git/ref/tags/<v>`), since FTP-Deploy-Action also has branches named like its tags.
+- The deploy deletes only files it uploaded before (tracked in `.ftp-deploy-sync-state.json` on the
+  server); leftovers from the previous site must be removed by hand.
+- After deploying, `curl -sI https://berlinharriers.de | grep -i set-cookie` must print nothing;
+  the workflow checks this.
+- If the site moves back to Cloudflare, keep **Bot Fight Mode** off (it sets a `__cf_bm` cookie) and **Rocket Loader** off
+  (it breaks `app.js`).
