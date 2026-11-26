@@ -5,6 +5,7 @@
 ## Official information
 
 - [Berlin Harriers – home](https://berlinharriers.de/): Club introduction, the weekly run schedule, the season's races, FAQ and links to the club's Discord and Strava.
+- [Membership](https://berlinharriers.de/membership.html): How to become a member of the e.V.: who can join, how to apply, what members get, the code of conduct and the statutes. Membership is free.
 - [Impressum and data protection](https://berlinharriers.de/impressum.html): Legal identity, register information and contact details (in German).
 
 ## Weekly runs
