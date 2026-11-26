@@ -38,6 +38,9 @@ Social cards (`site/og/*.jpg`, 1200×630) are rendered from `assets/og/card.html
 meeting point changes, update the `RUNS` table in `card.html` and re-render; check them all with
 `assets/og/preview.html` (serve the repo root, not `site/`).
 
+`site/sitemap.xml` carries a `lastmod` per page; bump it to the commit date when that page's
+content changes (Google only trusts `lastmod` while it stays accurate).
+
 `site/llms.txt` repeats the weekly schedule as plain text for AI crawlers, so update it too when a
 run changes or a page is added. Keep its "Information scope" note: the runs are informal, not
 organised club events, which matches the disclaimer on the run pages.
