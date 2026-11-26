@@ -1,3 +1,4 @@
+# Public pages may be crawled by search engines and AI search crawlers.
 User-agent: *
 Allow: /
 
