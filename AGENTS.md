@@ -110,12 +110,16 @@ Three hand-written files, no framework:
 
 ## Deployment notes
 
-- Hosting is Hetzner webhosting. Deploys run from GitHub Actions over FTPS (`protocol: ftps`,
-  `security: strict`; never plain FTP), with `FTP_USERNAME` / `FTP_PASSWORD` stored as secrets of the
-  `production` environment. Actions are pinned to commit SHAs; when bumping one, resolve the
-  **tag** (`git/ref/tags/<v>`), since FTP-Deploy-Action also has branches named like its tags.
-- The deploy deletes only files it uploaded before (tracked in `.ftp-deploy-sync-state.json` on the
-  server); leftovers from the previous site must be removed by hand.
+- Hosting is Hetzner webhosting. Deploys run from GitHub Actions with `lftp` from Ubuntu's archive
+  over FTPS (TLS forced, certificate and hostname verified; never plain FTP), with `FTP_USERNAME` /
+  `FTP_PASSWORD` stored as secrets of the `production` environment. No third-party actions: the
+  only one is GitHub's `actions/checkout`. Actions are referenced by version tag and pinned to
+  commits in `.github/workflows/actions.lock`. After changing any `uses:` line, run `gh actions-lock`
+  (extension `github/gh-actions-lock`) and commit the lockfile; never edit it by hand. The
+  `Lockfile` workflow fails when it is stale.
+- The deploy is a mirror: anything in the web root that is not in `site/` is **deleted**. Files that
+  must live only on the server need an `--exclude-glob` in `deploy.yml`. Manual runs default to a
+  dry run that lists the changes.
 - After deploying, `curl -sI https://berlinharriers.de | grep -i set-cookie` must print nothing;
   the workflow checks this.
 - If the site moves back to Cloudflare, keep **Bot Fight Mode** off (it sets a `__cf_bm` cookie) and **Rocket Loader** off

@@ -1,0 +1,29 @@
+# Fails when .github/workflows/actions.lock no longer matches the workflows.
+# Fix locally with:  gh actions-lock   (extension: github/gh-actions-lock)
+
+name: Lockfile
+
+on:
+  pull_request:
+    paths: [".github/workflows/**"]
+  push:
+    branches: [main]
+    paths: [".github/workflows/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out without an action, so nothing here needs locking
+        run: |
+          git init -q .
+          git fetch -q --depth=1 "https://github.com/${GITHUB_REPOSITORY}" "${GITHUB_SHA}"
+          git checkout -q FETCH_HEAD
+      - run: gh extension install github/gh-actions-lock --pin v0.5.1
+      - run: gh actions-lock --verify
