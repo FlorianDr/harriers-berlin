@@ -8,5 +8,13 @@
 /documents/code-of-conduct.pdf          /code-of-conduct.pdf  301
 /documents/statutes.pdf                 /satzung.pdf          301
 /documents/membership-application.pdf   /membership-application.pdf  301
+# Old .htm file names.
+/index.htm              /                   301
+/impressum.htm          /impressum          301
+/runs.htm               /#runs              301
+/membership/index.htm   /membership         301
+# berlinharriers.de/mail is a shortcut to the Hetzner webmail login.
+/mail                   https://webmail.your-server.de/  302
+/mail/*                 https://webmail.your-server.de/  302
 # No /impressum rule: Pages already serves impressum.html at /impressum and
 # 308-redirects /impressum.html there, so redirecting back would loop.

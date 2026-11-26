@@ -1,0 +1,82 @@
+# Mirrors site/ to the Hetzner webhosting over FTPS (FTP with TLS) on every push to main.
+#
+# Setup (once): repo Settings → Environments → "production" → add secrets
+#   FTP_USERNAME, FTP_PASSWORD
+# and, under "Deployment branches", allow only main.
+#
+# No third-party actions: lftp comes from Ubuntu's package archive, checkout is GitHub's own.
+# The mirror makes the web root match site/ exactly, so files that are not in site/ are
+# DELETED on the server (except the excluded ones below). Back up the server before the
+# first real run, and read the dry-run output first.
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", ".github/workflows/deploy.yml"]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Only list what would change, upload nothing"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    environment:
+      name: production
+      url: https://berlinharriers.de/
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7.0.1 # commit pinned in actions.lock
+        with:
+          persist-credentials: false
+
+      - name: Install lftp (Ubuntu archive)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends lftp
+          lftp --version | head -1
+
+      - name: Mirror site/ to the server over FTPS
+        env:
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }} # read by --env-password, never on the command line
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && '--dry-run' || '' }}
+        run: |
+          lftp -c "
+            set cmd:fail-exit true
+            set ftp:ssl-force true
+            set ftp:ssl-protect-data true
+            set ssl:verify-certificate true
+            set ssl:check-hostname true
+            set net:timeout 30
+            set net:max-retries 3
+            open --env-password -u \"$FTP_USERNAME\" ftp://www325.your-server.de
+            mirror --reverse --delete --verbose $DRY_RUN \
+              --exclude-glob .git* \
+              --exclude-glob .DS_Store \
+              --exclude-glob _headers \
+              --exclude-glob _redirects \
+              --exclude-glob .well-known/ \
+              site/ ./
+          "
+
+      - name: Check the live site sets no cookies
+        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
+        run: |
+          headers=$(curl -sSfI https://berlinharriers.de/)
+          echo "$headers"
+          if echo "$headers" | grep -qi '^set-cookie'; then
+            echo "::error::The site sets a cookie, which breaks the privacy policy."
+            exit 1
+          fi
