@@ -1,0 +1,79 @@
+<!doctype html>
+<!-- Review sheet for the Open Graph cards. Not served. Open it over http from the
+     repo root (python3 -m http.server); it reads each page's real <meta> tags. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OG card preview</title>
+<style>
+  :root{color-scheme:light dark;--bg:light-dark(#f4f2f6,#16131c);--card:light-dark(#fff,#221e2a);
+    --ink:light-dark(#1d1724,#ece8f1);--muted:light-dark(#6b6275,#a59db0);--line:light-dark(#ddd6e3,#3a3344);
+    --bad:light-dark(#b3261e,#ff8a80)}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,sans-serif;padding:32px 16px}
+  main{max-inline-size:1100px;margin-inline:auto}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 28px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,500px),1fr));gap:28px}
+  .page{display:grid;gap:10px}
+  .path{font:600 13px ui-monospace,monospace;color:var(--muted)}
+  .link{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .link img{display:block;inline-size:100%;aspect-ratio:1200/630;object-fit:cover;background:var(--line)}
+  .link .meta{padding:12px 14px 14px;display:grid;gap:3px}
+  .domain{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  .title{font-weight:700}
+  .desc{color:var(--muted);font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .alt{font-size:13px;color:var(--muted)}
+  .alt b{color:var(--ink)}
+  .bad{color:var(--bad);font-weight:600;font-size:13px}
+</style>
+</head>
+<body>
+<main>
+  <h1>Open Graph cards</h1>
+  <p class="sub">Each preview is built from the page's own meta tags. Images load from <code>site/og/</code>, which is
+    where the production <code>og:image</code> URLs point.</p>
+  <div class="grid" id="grid"></div>
+</main>
+<script>
+const PAGES = ["index.html", "runs/monday-duck.html", "runs/tuesday-track.html", "runs/thursday-swan.html",
+  "runs/friday-dachshund.html", "runs/saturday-parkrun.html", "impressum.html"];
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" })[c]);
+
+(async () => {
+  const grid = document.getElementById("grid");
+  for (const path of PAGES) {
+    const doc = new DOMParser().parseFromString(await (await fetch(`../../site/${path}`)).text(), "text/html");
+    const og = k => doc.querySelector(`meta[property="og:${k}"]`)?.content;
+    const tw = doc.querySelector('meta[name="twitter:card"]')?.content;
+    const img = og("image") || "";
+    const problems = [
+      !img && "no og:image",
+      img && !img.startsWith("https://berlinharriers.de/og/") && "image not in /og/",
+      og("image:width") !== "1200" && "width ≠ 1200",
+      og("image:height") !== "630" && "height ≠ 630",
+      !og("image:alt") && "no alt text",
+      tw !== "summary_large_image" && "no large twitter:card",
+      !og("title") && "no og:title",
+    ].filter(Boolean);
+    const local = img.replace("https://berlinharriers.de/", "../../site/");
+    grid.insertAdjacentHTML("beforeend", `
+      <section class="page">
+        <div class="path">${esc(path)}</div>
+        <div class="link">
+          <img src="${esc(local)}" alt="${esc(og("image:alt"))}">
+          <div class="meta">
+            <span class="domain">berlinharriers.de</span>
+            <span class="title">${esc(og("title"))}</span>
+            <span class="desc">${esc(og("description"))}</span>
+          </div>
+        </div>
+        <div class="alt"><b>Alt:</b> ${esc(og("image:alt"))}</div>
+        ${problems.length ? `<div class="bad">${problems.join(" · ")}</div>` : ""}
+      </section>`);
+  }
+})();
+</script>
+</body>
+</html>
