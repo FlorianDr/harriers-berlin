@@ -380,6 +380,31 @@
     max-inline-size:60ch;margin-block-start:.5rem}
   footer a{color:var(--volt)}
   footer .legal{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;margin-block-start:var(--sp-4)}
+
+  /* Page-specific rules live here, never in <style> or style="": the CSP allows no inline CSS.
+     Kept last in the layer so they win over the general rules above, as inline styles did. */
+  /* impressum.html, 404.html: short masthead without a hero */
+  .masthead--compact{padding-block:clamp(1.5rem,4vw,2.25rem)}
+  .masthead--compact h1{font-size:var(--s-2)}
+  .masthead .wordmark{font-family:var(--dsp);font-size:var(--s-2);line-height:.95;color:var(--on-purple)}
+  .band--ruled{border-block-start:1px solid var(--line)}
+  /* 404.html */
+  .notfound h1{font-size:var(--s-2);color:var(--brand)}
+  .notfound h1 + p{margin-block-start:var(--sp-5);color:var(--ink-soft);max-inline-size:var(--measure)}
+  /* index.html: second paragraph in the joining card */
+  .card .followup{margin-block-start:var(--sp-3)}
+  /* membership.html */
+  .prose--sections h2{margin-block-start:var(--sp-5)}
+  .prose--sections h2:first-child{margin-block-start:0}
+  .prose--sections ul{margin:0;padding-inline-start:1.2rem;display:grid;gap:.4rem}
+  /* impressum.html */
+  .legalbody{max-inline-size:var(--measure);display:grid;gap:var(--sp-4);margin-block-start:var(--sp-5)}
+  .legalbody h3{font-family:var(--dsp);font-size:var(--s-1);color:var(--brand);
+    margin-block-start:var(--sp-5)}
+  .legalbody p,.legalbody li{color:var(--ink-soft);font-size:var(--s--1);line-height:1.65}
+  .legalbody ul{margin:0;padding-inline-start:1.2rem;display:grid;gap:.3rem}
+  .addr{background:var(--surface);border-inline-start:4px solid var(--volt);padding:1rem 1.1rem;
+    font-size:var(--s--1);line-height:1.7}
 }
 
 @layer motion{
