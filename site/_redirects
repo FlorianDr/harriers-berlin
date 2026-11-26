@@ -2,5 +2,11 @@
 # .htaccess is Apache-only and is ignored here.
 /runs           /#runs              301
 /runs/          /#runs              301
+# membership.html is served at /membership by Pages itself; only the old
+# trailing-slash form needs a rule.
+/membership/    /membership         301
+/documents/code-of-conduct.pdf          /code-of-conduct.pdf  301
+/documents/statutes.pdf                 /satzung.pdf          301
+/documents/membership-application.pdf   /membership-application.pdf  301
 # No /impressum rule: Pages already serves impressum.html at /impressum and
 # 308-redirects /impressum.html there, so redirecting back would loop.
