@@ -32,6 +32,12 @@ Route maps on the run pages are static SVGs drawn from a GPX plus OpenStreetMap 
 `assets/routes/tools/route_map.py` — an optional helper run by hand, not a build step. Its README
 covers the GPX privacy check, the required OpenStreetMap credit and renaming on change.
 
+Social cards (`site/og/*.jpg`, 1200×630) are rendered from `assets/og/card.html` by
+`assets/og/render.sh`, another hand-run helper (headless Chrome + `sips`). Every page sets
+`og:image` to its card with width, height and alt text. When a run's day, time, distance, pace or
+meeting point changes, update the `RUNS` table in `card.html` and re-render; check them all with
+`assets/og/preview.html` (serve the repo root, not `site/`).
+
 Photos are JPEG at widths 640/1024/1600, served with `srcset`. The hero video is a muted H.264 MP4
 (`-an -vf scale=960:372 -c:v libx264 -crf 34 -movflags +faststart`); it sits behind a heavy purple
 overlay, so it tolerates hard compression.
