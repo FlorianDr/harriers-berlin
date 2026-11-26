@@ -25,15 +25,7 @@ RedirectMatch 301 ^/documents/membership-application\.pdf$  /membership-applicat
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), interest-cohort=()"
 
-  # Assets change by filename when replaced: cache for a year.
-  <FilesMatch "\.(woff2|jpg|png|svg|mp4)$">
-    Header set Cache-Control "public, max-age=31536000, immutable"
-  </FilesMatch>
-  # HTML changes on every edit: always revalidate.
-  <FilesMatch "\.html$">
-    Header set Cache-Control "public, max-age=0, must-revalidate"
-  </FilesMatch>
-  <FilesMatch "\.(css|js)$">
-    Header set Cache-Control "public, max-age=3600"
-  </FilesMatch>
+  # File names carry no content hash, so nothing may be cached blindly: browsers keep
+  # their copy but revalidate it on every visit (a cheap 304 when unchanged).
+  Header set Cache-Control "no-cache"
 </IfModule>
